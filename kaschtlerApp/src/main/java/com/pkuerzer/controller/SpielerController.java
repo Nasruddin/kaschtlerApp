@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,19 +25,20 @@ public class SpielerController {
 	@RequestMapping("/spieler")
 	public String spielerIndex(Model model){
 		model.addAttribute("spielerList", spielerService.findAllSpieler());
-		model.addAttribute("spieler", new Spieler());
+//		model.addAttribute("spieler", new Spieler());
 		return "spieler/spielerIndex";
 	}
 
 	@RequestMapping(value="/spieler/create", method=RequestMethod.POST)
 	public String spielerCreate(@ModelAttribute Spieler spieler, Model model){
 		spielerService.saveSpieler(spieler);
-		model.addAttribute("spielerList", spielerService.findAllSpieler());
 		return "redirect:/spieler";
 	}
 	
-	@RequestMapping(value="/spieler/delete", method=RequestMethod.POST)
-	public String spielerDelete(){
-		return "";
+		
+	@RequestMapping(value="/spieler/delete/{id}", method=RequestMethod.DELETE)
+	public String spielerDelete(@PathVariable Long id){
+		spielerService.deleteSpieler(id);
+		return "redirect:/spieler";
 	}
 }

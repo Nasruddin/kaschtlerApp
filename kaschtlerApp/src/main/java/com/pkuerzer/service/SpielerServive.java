@@ -26,8 +26,8 @@ public class SpielerServive {
 		return spielerRepository.findAll();
 	}
 	
-	public void deleteSpieler(Spieler spieler){
-		spielerRepository.delete(spieler);
+	public void deleteSpieler(Long id){
+		spielerRepository.delete(id);
 	}
 
 	public SpielerRepository getSpielerRepository() {

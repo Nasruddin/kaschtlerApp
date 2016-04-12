@@ -16,8 +16,9 @@
 			<td th:text="${{spieler.name}}"></td>
 			<td th:text="${{spieler.active}}"></td>
 			<td>
-				<form th:object="${spieler}" th:action="@{/spieler/delete}" th:method="delete"></form>
-				<button type="submit" class="btn btn-danger btn-xs">löschen</button>
+				<form th:object="${spieler}" th:action="@{/spieler/delete/{id}(id=${spieler.id})}" th:method="delete">
+					<button type="submit" class="btn btn-danger btn-xs">löschen</button>
+				</form>
 			</td>
 		</tr>
 	</tbody>
