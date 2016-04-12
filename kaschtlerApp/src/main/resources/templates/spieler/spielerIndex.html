@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<object th:include="fragments/head :: head"></object>
+</head>
+<body>
+	<div th:include="fragments/header :: header"></div>
+	<div class="container">
+		<div class="row">
+			<h1 id="forms" class="page-header">Spieler</h1>
+		</div>
+		<div class="row"></div>
+		<div class="row">
+			<div class="col-md-8">
+				<div th:include="fragments/spieler/spielerList :: spielerList"></div>
+			</div>
+			<div class="col-md-4">
+				<form action="#" th:action="@{/spieler/create}"	th:object="${spieler}" method="post">
+					<div class="form-group">
+						<label for="inputSpielerName">Name</label> 
+						<input type="text" th:field="*{name}" class="form-control" id="inputSpielerName" placeholder="Name" />
+					</div>
+					<div class="checkbox">
+						<label> <input type="checkbox" th:field="*{active}" /> Aktiv
+						</label>
+					</div>
+					<button type="submit" class="btn btn-default">Spieler hinzufügen</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
