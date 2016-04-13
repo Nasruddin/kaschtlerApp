@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<object th:include="fragments/head :: head"></object>
+</head>
+<body>
+	<div th:include="fragments/header :: header"></div>
+	<div class="container">
+		<div class="row">
+			<h1 id="forms" class="page-header">Neues Spiel</h1>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<div th:include="fragments/spiel/spielPrepare :: spielPrepare" th:unless="${spiel != null}"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
