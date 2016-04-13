@@ -7,7 +7,8 @@
 			<th>Spieler Id</th>
 			<th>Name</th>
 			<th>Aktiv</th>
-			<th>Actions</th>
+			<th>Edit</th>
+			<th>Delete</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,8 +17,17 @@
 			<td th:text="${{spieler.name}}"></td>
 			<td th:text="${{spieler.active}}"></td>
 			<td>
+				<form th:object="${spieler}" th:action="@{/spieler/{id}(id=${spieler.id})}" th:method="get">
+					<button type="submit" class="btn btn-warning">
+						<i class="fa fa-pencil-square-o fa-2" title="edit"></i>
+					</button>
+				</form>
+			</td>
+			<td>
 				<form th:object="${spieler}" th:action="@{/spieler/delete/{id}(id=${spieler.id})}" th:method="delete">
-					<button type="submit" class="btn btn-danger btn-xs">löschen</button>
+					<button type="submit" class="btn btn-danger"> 
+						<i class="fa fa-trash-o fa-2" aria-hidden="true" title="delete"></i>
+					</button>
 				</form>
 			</td>
 		</tr>

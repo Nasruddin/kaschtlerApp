@@ -16,6 +16,14 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Spiel {
+	
+	public Spiel(){
+		super();
+	}
+	
+	public Spiel(Date created){
+		this.created = created;
+	}
 
 	@Id
 	@SequenceGenerator(name="spiel_seq_gen", sequenceName="SPIEL_SEQ", allocationSize = 1)
