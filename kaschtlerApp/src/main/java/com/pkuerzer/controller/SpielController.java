@@ -39,7 +39,7 @@ public class SpielController {
 		Spiel spiel = new Spiel(new Date());
 		spiel = spielService.getSpielRepository().save(spiel);
 		model.addAttribute("spiel", spiel);
-		return "redirect:spiel/" + spiel.getId();
+		return "redirect:/spiel/" + spiel.getId();
 	}
 	
 	public SpielService getSpielService() {
