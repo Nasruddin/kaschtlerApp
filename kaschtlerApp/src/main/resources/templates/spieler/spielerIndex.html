@@ -16,20 +16,8 @@
 				<div th:include="fragments/spieler/spielerList :: spielerList"></div>
 			</div>
 			<div class="col-md-4">
-			
-				<form action="#" th:action="@{/spieler/create}"	th:object="${spieler}" method="post">
-				<input type="hidden" th:field="*{id}" id="inputSpielerId"/>
-					<div class="form-group">
-						<label for="inputSpielerName">Name</label> 
-						<input type="text" th:field="*{name}" class="form-control" id="inputSpielerName" placeholder="Name" />
-					</div>
-					<div class="checkbox">
-						<label> <input type="checkbox" th:field="*{active}" /> Aktiv
-						</label>
-					</div>
-					<button type="submit" class="btn btn-default">Spieler hinzufügen</button>
-				</form>
-				
+				<div th:include="fragments/spieler/spielerCreateForm :: spielerCreateForm" th:unless="${spieler.id != null}"></div>
+				<div th:include="fragments/spieler/spielerEditForm :: spielerEditForm" th:unless="${spieler.id == null}"></div>
 			</div>
 		</div>
 	</div>

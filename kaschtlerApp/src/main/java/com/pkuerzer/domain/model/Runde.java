@@ -23,6 +23,15 @@ public class Runde {
 	
 	@OneToMany(mappedBy="runde", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<RundeSpieler> spieler;
+	
+	@Column
+	private boolean herz;
+	
+	@Column
+	private Integer multiplikation;
+	
+	@Column
+	private boolean muli;
 
 	public Long getId() {
 		return id;
@@ -38,6 +47,30 @@ public class Runde {
 
 	public void setSpieler(List<RundeSpieler> spieler) {
 		this.spieler = spieler;
+	}
+
+	public boolean isHerz() {
+		return herz;
+	}
+
+	public void setHerz(boolean herz) {
+		this.herz = herz;
+	}
+
+	public boolean isMuli() {
+		return muli;
+	}
+
+	public void setMuli(boolean muli) {
+		this.muli = muli;
+	}
+
+	public Integer getMultiplikation() {
+		return multiplikation;
+	}
+
+	public void setMultiplikation(Integer multiplikation) {
+		this.multiplikation = multiplikation;
 	}
 	
 }

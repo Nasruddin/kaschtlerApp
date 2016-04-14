@@ -24,6 +24,12 @@ public class RundeSpieler {
 	
 	@Column
 	private Integer punkte;
+	
+	@Column
+	private Integer position;
+	
+	@Column
+	private boolean gegangen;
 
 	public Runde getRunde() {
 		return runde;
@@ -47,6 +53,22 @@ public class RundeSpieler {
 
 	public void setPunkte(Integer punkte) {
 		this.punkte = punkte;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
+	public boolean isGegangen() {
+		return gegangen;
+	}
+
+	public void setGegangen(boolean gegangen) {
+		this.gegangen = gegangen;
 	}
 	
 }

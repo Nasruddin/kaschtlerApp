@@ -16,6 +16,11 @@
 				<div th:include="fragments/spiel/spielPrepare :: spielPrepare" th:unless="${spiel != null}"></div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div th:include="fragments/spiel/spielSpielerChoice :: spielSpielerChoice" th:unless="${spiel == null}"></div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

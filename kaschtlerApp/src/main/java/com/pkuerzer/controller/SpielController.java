@@ -1,13 +1,18 @@
 package com.pkuerzer.controller;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pkuerzer.domain.model.Runde;
 import com.pkuerzer.domain.model.Spiel;
 import com.pkuerzer.service.SpielService;
 
@@ -31,8 +36,21 @@ public class SpielController {
 	public String spiel(@PathVariable Long id, Model model){
 		Spiel spiel = spielService.getSpielRepository().findOne(id);
 		model.addAttribute("spiel", spiel);
+		model.addAttribute("spielerList", spielService.getSpielerRepository().findAll());
 		return "spiel/spielIndex";
 	}
+	
+	@RequestMapping(value="spiel/{id}", method=RequestMethod.POST)
+	public String spielSpielerSet(@PathVariable Long id, Model model, @RequestParam Map<String,String> allRequestParams){
+		Spiel spiel = spielService.getSpielRepository().findOne(id);
+		
+		Runde runde = spielService.createSpielIncludingSpieler(allRequestParams);
+		spiel.setRunden(Arrays.asList(runde));
+		model.addAttribute("spiel", spiel);
+		model.addAttribute("spielerList", spielService.getSpielerRepository().findAll());
+		return "spiel/spielIndex";
+	}
+	
 	
 	@RequestMapping("/spiel/create")
 	public String spielCreate(Model model){
