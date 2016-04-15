@@ -3,6 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/templates/fragments/content.html=UTF-8
 encoding//src/main/resources/templates/fragments/head.html=UTF-8
+encoding//src/main/resources/templates/fragments/spieler/spielerCreateForm.html=UTF-8
 encoding//src/main/resources/templates/fragments/spieler/spielerList.html=UTF-8
 encoding//src/main/resources/templates/index.html=UTF-8
 encoding//src/main/resources/templates/spieler/spielerIndex.html=UTF-8

@@ -1,5 +1,6 @@
 package com.pkuerzer.domain.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,12 +15,23 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Runde {
+	
+	public Runde(){
+		super();
+	}
+	public Runde(Date created, Integer multiplikation){
+		this.created = created;
+		this.multiplikation = multiplikation;
+	}
 
 	@Id
 	@SequenceGenerator(name="runde_seq_gen", sequenceName="RUNDE_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="runde_seq_gen")
 	@Column
 	private Long id;
+
+	@Column(name="spiel_id")
+	private Long spielId;
 	
 	@OneToMany(mappedBy="runde", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<RundeSpieler> spieler;
@@ -31,7 +43,13 @@ public class Runde {
 	private Integer multiplikation;
 	
 	@Column
+	private Integer rundenNummer;
+	
+	@Column
 	private boolean muli;
+	
+	@Column
+	private Date created;
 
 	public Long getId() {
 		return id;
@@ -71,6 +89,24 @@ public class Runde {
 
 	public void setMultiplikation(Integer multiplikation) {
 		this.multiplikation = multiplikation;
+	}
+	public Date getCreated() {
+		return created;
+	}
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+	public Integer getRundenNummer() {
+		return rundenNummer;
+	}
+	public void setRundenNummer(Integer rundenNummer) {
+		this.rundenNummer = rundenNummer;
+	}
+	public Long getSpielId() {
+		return spielId;
+	}
+	public void setSpielId(Long spielId) {
+		this.spielId = spielId;
 	}
 	
 }

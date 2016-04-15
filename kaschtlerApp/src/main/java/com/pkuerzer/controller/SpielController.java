@@ -1,7 +1,8 @@
 package com.pkuerzer.controller;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pkuerzer.domain.model.Runde;
 import com.pkuerzer.domain.model.Spiel;
+import com.pkuerzer.exception.NumberOfSpielerException;
 import com.pkuerzer.service.SpielService;
 
 @Controller
@@ -37,18 +39,29 @@ public class SpielController {
 		Spiel spiel = spielService.getSpielRepository().findOne(id);
 		model.addAttribute("spiel", spiel);
 		model.addAttribute("spielerList", spielService.getSpielerRepository().findAll());
+		model.addAttribute("errorMessage", null);
 		return "spiel/spielIndex";
 	}
 	
 	@RequestMapping(value="spiel/{id}", method=RequestMethod.POST)
 	public String spielSpielerSet(@PathVariable Long id, Model model, @RequestParam Map<String,String> allRequestParams){
 		Spiel spiel = spielService.getSpielRepository().findOne(id);
-		
-		Runde runde = spielService.createSpielIncludingSpieler(allRequestParams);
-		spiel.setRunden(Arrays.asList(runde));
-		model.addAttribute("spiel", spiel);
-		model.addAttribute("spielerList", spielService.getSpielerRepository().findAll());
-		return "spiel/spielIndex";
+		List<Runde> runden = new ArrayList<>();
+		Runde runde = null;
+		try {
+			runde = spielService.createSpielIncludingSpieler(allRequestParams);
+			runden.add(runde);
+			spiel.setRunden(runden);
+			
+			spielService.getSpielRepository().save(spiel);
+			
+		} catch (NumberOfSpielerException e) {
+			model.addAttribute("spiel", spiel);
+			model.addAttribute("spielerList", spielService.getSpielerRepository().findAll());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "spiel/spielIndex";
+		}
+		return "redirect:/spiel/" + spiel.getId() + "/runde/" + runde.getRundenNummer() ;
 	}
 	
 	

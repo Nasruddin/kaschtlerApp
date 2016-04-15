@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="spielSpielerChoice">
+	<div class="alert alert-danger alert-dismissable" th:text="${errorMessage}" th:unless="${errorMessage == null}">
+	</div>
+	<form th:object="${spieler}" th:action="@{/spiel/{id}(id=${spiel.id})}"
+		th:method="post">
+		<div class="panel panel-default">
+			<div class="panel-heading">Spieler dem Spiel hinzufügen</div>
+			<div class="panel-body">
+				<div class="row">
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 1</label> <select class="form-control"
+								name="Spieler1">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 2</label> <select class="form-control"
+								name="Spieler2">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 3</label> <select class="form-control"
+								name="Spieler3">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 4</label> <select class="form-control"
+								name="Spieler4">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 5</label> <select class="form-control"
+								name="Spieler5">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Spieler 6</label> <select class="form-control"
+								name="Spieler6">
+								<option selected="selected">-</option>
+								<option th:each="spieler : ${spielerList}"
+									th:value="${spieler.id}" th:text="${spieler.name}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="submitButton">Starte das Spiel</label>
+							<button type="submit" class="btn btn-success" id="submitButton">
+								<span class="fa fa-check"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+</html>

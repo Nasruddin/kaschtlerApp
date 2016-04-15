@@ -7,5 +7,7 @@ import com.pkuerzer.domain.model.Runde;
 
 @Repository
 public interface RundeRepository extends JpaRepository<Runde, Long>{
+	
+	public Runde findBySpielIdAndRundenNummer(Long spielId, Integer rundenNummer);
 
 }
