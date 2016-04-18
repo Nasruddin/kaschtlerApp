@@ -1,12 +1,15 @@
 package com.pkuerzer.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.pkuerzer.domain.model.Runde;
+import com.pkuerzer.domain.model.Spiel;
 import com.pkuerzer.service.RundeService;
 import com.pkuerzer.service.SpielService;
 
@@ -24,10 +27,19 @@ public class RundeController {
 
 	
 	@RequestMapping(value="/spiel/{spielId}/runde/{rundenNummer}")
-	public String currentRunde(@PathVariable Long spielId, @PathVariable Integer rundenNummer, Model model){
-		model.addAttribute("spiel", spielService.getSpielRepository().findOne(spielId));
-		Runde runde = rundeService.getRundeRepository().findBySpielIdAndRundenNummer(spielId, rundenNummer);
-		model.addAttribute("runde", runde);
+	public String currentRunde(@PathVariable Long spielId, @PathVariable Integer rundenNummer, Model model, @RequestParam Map<String,String> allRequestParams){
+		Spiel spiel = spielService.getSpielRepository().findOne(spielId);
+		model.addAttribute("spiel", spiel);
+		if(rundenNummer == 0){
+			model = rundeService.initialRunde(spiel, rundenNummer, model);
+		} else{
+			
+		}
+		
+		
+		
+		
+		model.addAttribute("rundenList", spiel.getRunden());
 		
 		return "spiel/spielRunning";
 	}

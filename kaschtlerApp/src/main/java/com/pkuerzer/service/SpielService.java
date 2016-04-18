@@ -32,8 +32,7 @@ public class SpielService {
 	}
 	
 	public Runde createSpielIncludingSpieler(Map<String, String> allRequestParams) throws NumberOfSpielerException{
-		Runde runde0 = new Runde(new Date(), 2);
-		runde0 = rundeService.getRundeRepository().save(runde0);
+		Runde runde0 = new Runde(new Date(), 1);
 		List<RundeSpieler> rundeSpielers = new ArrayList<>();
 		int position = 1;
 		
@@ -55,6 +54,9 @@ public class SpielService {
 		if(runde0.getSpieler().size() < 3 || runde0.getSpieler().isEmpty() || runde0.getSpieler().size() > 6){
 			throw new NumberOfSpielerException("Anzahl der Spieler ist nicht valide.") ;
 		}
+		
+		runde0.setRundenNummer(0);
+		runde0 = rundeService.getRundeRepository().save(runde0);
 		
 		return runde0;
 		

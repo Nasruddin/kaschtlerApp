@@ -11,9 +11,42 @@
 		<div class="row">
 			<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + runde.rundenNummer}"></h1>
 		</div>
+		<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${runde.rundenNummer})}"	
+				 method="post">
 		
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Runde</th>
+						<th th:each="spieler : ${spielerList}" th:text="${spieler.spieler.name}"></th>
+						<th>Doppelt</th>
+						<th>Herz</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="runde : ${rundenList}">
+						<td th:text="${runde.rundenNummer}"></td>
+						<td th:each="spieler : ${runde.spieler}" th:text="${spieler.punkte}"></td>
+						<td th:text="${runde.multiplikation}"></td>
+						<td th:text="${runde.herz}"></td>
+						<td>actions</td>
+					</tr>
+					<tr>
+						<td th:text="${runde.rundenNummer + 1}"></td>
+						<td th:each="spieler : ${spielerList}"><input type="text" name="${spieler.spieler.id}" class="form-control"
+						id="inputSticheSpieler"	placeholder="Stiche" /></td>
+					</tr>
+					<tr>
+						<td><button type="submit" class="btn btn-success" id="submitButton">
+								<span class="fa fa-check"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		
-		
+		</form>
 	</div>
 
 </body>

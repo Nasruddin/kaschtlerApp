@@ -2,6 +2,7 @@ package com.pkuerzer.domain.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class Spiel {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="spiel_id")
-	private List<Runde> runden;
+	private Set<Runde> runden;
 	
 	@Column
 	private Date created;
@@ -52,11 +53,11 @@ public class Spiel {
 		this.id = id;
 	}
 
-	public List<Runde> getRunden() {
+	public Set<Runde> getRunden() {
 		return runden;
 	}
 
-	public void setRunden(List<Runde> runden) {
+	public void setRunden(Set<Runde> runden) {
 		this.runden = runden;
 	}
 

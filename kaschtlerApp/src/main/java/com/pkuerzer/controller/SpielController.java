@@ -1,9 +1,9 @@
 package com.pkuerzer.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +46,7 @@ public class SpielController {
 	@RequestMapping(value="spiel/{id}", method=RequestMethod.POST)
 	public String spielSpielerSet(@PathVariable Long id, Model model, @RequestParam Map<String,String> allRequestParams){
 		Spiel spiel = spielService.getSpielRepository().findOne(id);
-		List<Runde> runden = new ArrayList<>();
+		Set<Runde> runden = new HashSet<Runde>();
 		Runde runde = null;
 		try {
 			runde = spielService.createSpielIncludingSpieler(allRequestParams);
