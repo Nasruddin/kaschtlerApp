@@ -27,21 +27,42 @@
 				<tbody>
 					<tr th:each="runde : ${rundenList}">
 						<td th:text="${runde.rundenNummer}"></td>
-						<td th:each="spieler : ${runde.spieler}" th:text="${spieler.punkte}"></td>
-						<td th:text="${runde.multiplikation}"></td>
-						<td th:text="${runde.herz}"></td>
-						<td>actions</td>
-					</tr>
-					<tr>
-						<td th:text="${runde.rundenNummer + 1}"></td>
-						<td th:each="spieler : ${spielerList}"><input type="text" name="${spieler.spieler.id}" class="form-control"
-						id="inputSticheSpieler"	placeholder="Stiche" /></td>
-					</tr>
-					<tr>
-						<td><button type="submit" class="btn btn-success" id="submitButton">
-								<span class="fa fa-check"></span>
-							</button>
-						</td>
+							<th:block th:each="spieler : ${runde.spieler}">
+								<th:block th:if="${spieler.punkte == null}">
+									<td>
+										<input type="text" name="${spieler.spieler.id}" class="form-control"
+										id="inputSticheSpieler"	placeholder="Stiche"/>
+									</td>
+								</th:block>
+								<th:block th:if="${spieler.punkte != null}">
+									<td>
+										<th:block th:text="${spieler.punkte}"></th:block>
+									</td>
+									
+								</th:block>
+							</th:block>
+						
+							<th:block th:if="${runde.spieler[0].punkte == null}">
+								<td>
+									<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${runde.rundenNummer})}"
+										th:text="${runde.multiplikation + 'x | doppelt'}"></a>
+								</td>
+								<td>
+									<input type="checkbox" th:checked="${runde.herz}" name="herz"/> Herz 
+								</td>
+								<td>actions</td>
+							</th:block>
+							
+							<th:block th:if="${runde.spieler[0].punkte != null}">
+								<td th:text="${runde.multiplikation + 'x'}"></td>
+								<td th:text="${runde.herz}"></td>
+								<td>actions</td>
+							</th:block>
+							<td>
+								<button type="submit" class="btn btn-success" id="submitButton">
+									<span class="fa fa-check"></span>
+								</button>
+							</td>
 					</tr>
 				</tbody>
 			</table>

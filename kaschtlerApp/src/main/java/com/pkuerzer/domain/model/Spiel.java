@@ -1,7 +1,6 @@
 package com.pkuerzer.domain.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -34,6 +34,7 @@ public class Spiel {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="spiel_id")
+	@OrderBy("rundenNummer ASC")
 	private Set<Runde> runden;
 	
 	@Column

@@ -16,17 +16,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.pkuerzer.domain.model.Runde;
 import com.pkuerzer.domain.model.Spiel;
 import com.pkuerzer.exception.NumberOfSpielerException;
+import com.pkuerzer.service.RundeService;
 import com.pkuerzer.service.SpielService;
 
 @Controller
 public class SpielController {
 	
 	private final SpielService spielService;
+	private final RundeService rundeService;
 	
 	@Autowired
-	public SpielController(SpielService spielService) {
+	public SpielController(SpielService spielService, RundeService rundeService) {
 		super();
 		this.spielService = spielService;
+		this.rundeService = rundeService;
 	}
 
 	@RequestMapping("/spiel")
@@ -53,6 +56,10 @@ public class SpielController {
 			runden.add(runde);
 			spiel.setRunden(runden);
 			
+			spiel = spielService.getSpielRepository().save(spiel);
+			
+			runde = rundeService.createNewRunde(spiel, 1);
+			spiel.getRunden().add(runde);
 			spielService.getSpielRepository().save(spiel);
 			
 		} catch (NumberOfSpielerException e) {
@@ -61,6 +68,8 @@ public class SpielController {
 			model.addAttribute("errorMessage", e.getMessage());
 			return "spiel/spielIndex";
 		}
+		
+		
 		return "redirect:/spiel/" + spiel.getId() + "/runde/" + runde.getRundenNummer() ;
 	}
 	
@@ -75,5 +84,9 @@ public class SpielController {
 	
 	public SpielService getSpielService() {
 		return spielService;
+	}
+
+	public RundeService getRundeService() {
+		return rundeService;
 	}
 }
