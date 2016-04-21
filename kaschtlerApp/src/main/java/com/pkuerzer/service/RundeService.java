@@ -3,6 +3,7 @@ package com.pkuerzer.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import org.springframework.ui.Model;
 import com.pkuerzer.domain.model.Runde;
 import com.pkuerzer.domain.model.RundeSpieler;
 import com.pkuerzer.domain.model.Spiel;
-import com.pkuerzer.domain.model.Spieler;
 import com.pkuerzer.domain.repository.RundeRepository;
 import com.pkuerzer.domain.repository.SpielRepository;
 
@@ -27,14 +27,24 @@ public class RundeService {
 		this.spielRepository = spielRepository;
 	}
 	
-	public void endRunde(Spiel spiel, Runde runde){
+	public Runde endRunde(Spiel spiel, Runde runde, Map<String,String> allRequestParams){
 		Runde previousRunde = rundeRepository.findBySpielIdAndRundenNummer(spiel.getId(), runde.getRundenNummer() -1);
-		List<RundeSpieler> previousRundeSpieler = previousRunde.getSpieler();
+		List<RundeSpieler> previousRundeSpielerList = previousRunde.getSpieler();
 		
-		for(RundeSpieler prevoisRundeSpieler : previousRundeSpieler){
-			
+		for(RundeSpieler previousRundeSpieler : previousRundeSpielerList){
+			Integer punkte = Integer.parseInt(allRequestParams.get(previousRundeSpieler.getSpieler().getId().toString()));
+			for(RundeSpieler rundeSpieler : runde.getSpieler()){
+				if(rundeSpieler.getSpieler().getId() == previousRundeSpieler.getSpieler().getId()){
+					rundeSpieler.setPunkte(calculatePunkte(runde, punkte, previousRundeSpieler.getPunkte()));
+				}
+			}
 		}
-		
+		return runde;
+	}
+	
+	private Integer calculatePunkte(Runde runde, Integer punkte, Integer previousPunkte){
+		punkte = runde.getMultiplikation() * punkte;
+		return previousPunkte - punkte;
 	}
 	
 	public Runde createNewRunde(Spiel spiel, Integer rundenNummer){

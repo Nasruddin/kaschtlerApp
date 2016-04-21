@@ -45,13 +45,21 @@ public class RundeController {
 	public String endRunde(@PathVariable Long spielId, @PathVariable Integer rundenNummer, Model model, @RequestParam Map<String,String> allRequestParams){
 		Spiel spiel = spielService.getSpielRepository().findOne(spielId);
 		Runde runde = rundeService.getRundeRepository().findBySpielIdAndRundenNummer(spiel.getId(), rundenNummer);
+		runde = rundeService.endRunde(spiel, runde, allRequestParams);
 		
-		model.addAttribute("spiel", spiel);
-		model.addAttribute("runde", runde);
-		model.addAttribute("spielerList", runde.getSpieler());
-		model.addAttribute("rundenList", spiel.getRunden());
+		spiel.getRunden().add(runde);
+		spielService.getSpielRepository().save(spiel);
 		
-		return "spiel/spielRunning";
+		Runde newRunde = rundeService.createNewRunde(spiel, rundenNummer + 1);
+		spiel.getRunden().add(newRunde);
+		spielService.getSpielRepository().save(spiel);
+		
+//		model.addAttribute("spiel", spiel);
+//		model.addAttribute("runde", runde);
+//		model.addAttribute("spielerList", runde.getSpieler());
+//		model.addAttribute("rundenList", spiel.getRunden());
+		
+		return "redirect:/spiel/" + spiel.getId() + "/runde/" + newRunde.getRundenNummer();
 	}
 
 	@RequestMapping(value="/spiel/{spielId}/runde/{rundenNummer}/doppelt")

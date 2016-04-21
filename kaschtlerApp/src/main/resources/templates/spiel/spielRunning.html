@@ -30,7 +30,7 @@
 							<th:block th:each="spieler : ${runde.spieler}">
 								<th:block th:if="${spieler.punkte == null}">
 									<td>
-										<input type="text" name="${spieler.spieler.id}" class="form-control"
+										<input type="text" th:name="${spieler.spieler.id}" class="form-control"
 										id="inputSticheSpieler"	placeholder="Stiche"/>
 									</td>
 								</th:block>
