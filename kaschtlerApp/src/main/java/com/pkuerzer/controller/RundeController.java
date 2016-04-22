@@ -54,11 +54,6 @@ public class RundeController {
 		spiel.getRunden().add(newRunde);
 		spielService.getSpielRepository().save(spiel);
 		
-//		model.addAttribute("spiel", spiel);
-//		model.addAttribute("runde", runde);
-//		model.addAttribute("spielerList", runde.getSpieler());
-//		model.addAttribute("rundenList", spiel.getRunden());
-		
 		return "redirect:/spiel/" + spiel.getId() + "/runde/" + newRunde.getRundenNummer();
 	}
 
