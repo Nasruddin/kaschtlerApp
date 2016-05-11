@@ -82,6 +82,20 @@ public class RundeService {
 		return model;
 	}
 	
+	public Runde muliRunde(Runde runde){
+		if(runde.isMuli()){
+			runde.setMultiplikation(runde.getMultiplikation() * 2);
+		}
+		return runde;
+	}
+	
+	public Runde herzRunde(Runde runde){
+		if(runde.isHerz()){
+			runde.setMultiplikation(runde.getMultiplikation() * 2);
+		}
+		return runde;
+	}
+	
 	public Model normalRunde(Spiel spiel, Integer rundenNummer, Model model){
 		
 		return model;

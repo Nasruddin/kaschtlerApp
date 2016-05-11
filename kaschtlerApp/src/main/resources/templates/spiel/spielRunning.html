@@ -12,7 +12,7 @@
 			<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + runde.rundenNummer}"></h1>
 		</div>
 		<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${runde.rundenNummer})}"	
-				 method="post">
+				 method="post" th:object="${runde}">
 		
 			<table class="table table-bordered">
 				<thead>
@@ -21,13 +21,14 @@
 						<th th:each="spieler : ${spielerList}" th:text="${spieler.spieler.name}"></th>
 						<th>Doppelt</th>
 						<th>Herz</th>
+						<th>Muli</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="runde : ${rundenList}">
-						<td th:text="${runde.rundenNummer}"></td>
-							<th:block th:each="spieler : ${runde.spieler}">
+					<tr th:each="runden : ${rundenList}">
+						<td th:text="${runden.rundenNummer}"></td>
+							<th:block th:each="spieler : ${runden.spieler}">
 								<th:block th:if="${spieler.punkte == null}">
 									<td>
 										<input type="text" th:name="${spieler.spieler.id}" class="form-control"
@@ -42,20 +43,24 @@
 								</th:block>
 							</th:block>
 						
-							<th:block th:if="${runde.spieler[0].punkte == null}">
+							<th:block th:if="${runden.spieler[0].punkte == null}">
 								<td>
-									<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${runde.rundenNummer})}"
+									<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${runden.rundenNummer})}"
 										th:text="${runde.multiplikation + 'x | doppelt'}"></a>
 								</td>
 								<td>
 									<input type="checkbox" th:checked="${runde.herz}" name="herz"/> Herz 
 								</td>
+								<td>
+									<input type="checkbox" th:checked="${runde.muli}" name="muli"/> Muli 
+								</td>
 								<td>actions</td>
 							</th:block>
 							
-							<th:block th:if="${runde.spieler[0].punkte != null}">
-								<td th:text="${runde.multiplikation + 'x'}"></td>
-								<td th:text="${runde.herz}"></td>
+							<th:block th:if="${runden.spieler[0].punkte != null}">
+								<td th:text="${runden.multiplikation + 'x'}"></td>
+								<td th:text="${runden.herz}"></td>
+								<td th:text="${runden.muli}"></td>
 								<td>actions</td>
 							</th:block>
 							<td>
