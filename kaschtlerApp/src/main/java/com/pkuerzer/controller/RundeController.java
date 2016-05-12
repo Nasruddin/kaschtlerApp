@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +34,7 @@ public class RundeController {
 		Runde runde = rundeService.getRundeRepository().findBySpielIdAndRundenNummer(spiel.getId(), rundenNummer);
 		
 		model.addAttribute("spiel", spiel);
-		model.addAttribute("runde", runde);
+		model.addAttribute("currentRunde", runde);
 		model.addAttribute("spielerList", runde.getSpieler());
 		model.addAttribute("rundenList", spiel.getRunden());
 		
@@ -44,11 +43,13 @@ public class RundeController {
 	
 	@RequestMapping(value="/spiel/{spielId}/runde/{rundenNummer}", method=RequestMethod.POST)
 	public String endRunde(@PathVariable Long spielId, @PathVariable Integer rundenNummer, Model model, 
-			@RequestParam Map<String,String> allRequestParams, @ModelAttribute("runde") Runde runde){
+			@RequestParam Map<String,String> allRequestParams, 
+			@RequestParam(value="herz", defaultValue="false") Boolean herz, 
+			@RequestParam(value="muli", defaultValue="false") Boolean muli){
 		Spiel spiel = spielService.getSpielRepository().findOne(spielId);
-//		Runde runde = rundeService.getRundeRepository().findBySpielIdAndRundenNummer(spiel.getId(), rundenNummer);
-		rundeService.muliRunde(runde);
-		rundeService.herzRunde(runde);
+		Runde runde = rundeService.getRundeRepository().findBySpielIdAndRundenNummer(spiel.getId(), rundenNummer);
+		runde.setHerz(herz);
+		runde.setMuli(muli);
 		runde = rundeService.endRunde(spiel, runde, allRequestParams);
 		
 		spiel.getRunden().add(runde);

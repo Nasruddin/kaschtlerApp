@@ -9,10 +9,12 @@
 	<div th:include="fragments/header :: header"></div>
 	<div class="container">
 		<div class="row">
-			<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + runde.rundenNummer}"></h1>
+			<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + currentRunde.rundenNummer + currentRunde.id}"></h1>
 		</div>
-		<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${runde.rundenNummer})}"	
-				 method="post" th:object="${runde}">
+		<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${currentRunde.rundenNummer})}"	
+				 method="post" th:object="${currentRunde}">
+				 
+				 <input type="hidden" th:field="${currentRunde.id}" id="id"/>
 		
 			<table class="table table-bordered">
 				<thead>
@@ -46,13 +48,13 @@
 							<th:block th:if="${runden.spieler[0].punkte == null}">
 								<td>
 									<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${runden.rundenNummer})}"
-										th:text="${runde.multiplikation + 'x | doppelt'}"></a>
+										th:text="${currentRunde.multiplikation + 'x | doppelt'}"></a>
 								</td>
 								<td>
-									<input type="checkbox" th:checked="${runde.herz}" name="herz"/> Herz 
+									<input type="checkbox" th:checked="${currentRunde.herz}" name="herz"/> Herz 
 								</td>
 								<td>
-									<input type="checkbox" th:checked="${runde.muli}" name="muli"/> Muli 
+									<input type="checkbox" th:checked="${currentRunde.muli}" name="muli"/> Muli 
 								</td>
 								<td>actions</td>
 							</th:block>

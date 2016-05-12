@@ -43,7 +43,14 @@ public class RundeService {
 	}
 	
 	private Integer calculatePunkte(Runde runde, Integer punkte, Integer previousPunkte){
-		punkte = runde.getMultiplikation() * punkte;
+		int multiplikatorHerzMuli = 1;
+		if(runde.isHerz()){
+			multiplikatorHerzMuli = multiplikatorHerzMuli * 2;
+		}
+		if(runde.isMuli()){
+			multiplikatorHerzMuli = multiplikatorHerzMuli * 2;
+		}
+		punkte = runde.getMultiplikation() * punkte * multiplikatorHerzMuli;
 		return previousPunkte - punkte;
 	}
 	
@@ -80,20 +87,6 @@ public class RundeService {
 		model.addAttribute("spielerList", runde.getSpieler());
 		
 		return model;
-	}
-	
-	public Runde muliRunde(Runde runde){
-		if(runde.isMuli()){
-			runde.setMultiplikation(runde.getMultiplikation() * 2);
-		}
-		return runde;
-	}
-	
-	public Runde herzRunde(Runde runde){
-		if(runde.isHerz()){
-			runde.setMultiplikation(runde.getMultiplikation() * 2);
-		}
-		return runde;
 	}
 	
 	public Model normalRunde(Spiel spiel, Integer rundenNummer, Model model){
