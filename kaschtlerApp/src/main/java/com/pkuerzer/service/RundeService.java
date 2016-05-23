@@ -27,6 +27,34 @@ public class RundeService {
 		this.spielRepository = spielRepository;
 	}
 	
+	public void endRunde(Spiel spiel, Integer rundenNummer){
+		
+		
+		
+		
+		Runde currentRound = getCurrentRound(spiel, rundenNummer);
+		final Integer multiplication = getMultiplication(currentRound);
+		
+		calculatePoints(currentRound, getPreviousRound(spiel, rundenNummer));
+	}
+	
+	private void calculatePoints(Runde currentRound, Runde previousRound){
+		currentRound.getSpieler().stream().forEach(spieler -> {
+			
+		});
+	}
+	
+	private Integer getMultiplication(Runde currentRound){
+		Integer muliplication = currentRound.getMultiplikation();
+		if(currentRound.isHerz()){
+			muliplication = muliplication * 2;
+		}
+		if(currentRound.isMuli()){
+			muliplication = muliplication * 2;
+		}
+		return muliplication;
+	}
+	
 	public Runde endRunde(Spiel spiel, Runde runde, Map<String,String> allRequestParams){
 		Runde previousRunde = rundeRepository.findBySpielIdAndRundenNummer(spiel.getId(), runde.getRundenNummer() -1);
 		List<RundeSpieler> previousRundeSpielerList = previousRunde.getSpieler();
@@ -40,6 +68,14 @@ public class RundeService {
 			}
 		}
 		return runde;
+	}
+	
+	public Runde getCurrentRound(Spiel spiel, Integer rundenNummer){
+		return spiel.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer).findFirst().get();
+	}
+	
+	public Runde getPreviousRound(Spiel spiel, Integer rundenNummer){
+		return spiel.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer -1).findFirst().get();
 	}
 	
 	private Integer calculatePunkte(Runde runde, Integer punkte, Integer previousPunkte){

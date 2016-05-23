@@ -6,76 +6,21 @@
 </head>
 <body>
 
-	<div th:include="fragments/header :: header"></div>
-	<div class="container">
-		<div class="row">
-			<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + currentRunde.rundenNummer + currentRunde.id}"></h1>
-		</div>
-		<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${currentRunde.rundenNummer})}"	
-				 method="post" th:object="${currentRunde}">
-				 
-				 <input type="hidden" th:field="${currentRunde.id}" id="id"/>
-		
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Runde</th>
-						<th th:each="spieler : ${spielerList}" th:text="${spieler.spieler.name}"></th>
-						<th>Doppelt</th>
-						<th>Herz</th>
-						<th>Muli</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="runden : ${rundenList}">
-						<td th:text="${runden.rundenNummer}"></td>
-							<th:block th:each="spieler : ${runden.spieler}">
-								<th:block th:if="${spieler.punkte == null}">
-									<td>
-										<input type="text" th:name="${spieler.spieler.id}" class="form-control"
-										id="inputSticheSpieler"	placeholder="Stiche"/>
-									</td>
-								</th:block>
-								<th:block th:if="${spieler.punkte != null}">
-									<td>
-										<th:block th:text="${spieler.punkte}"></th:block>
-									</td>
-									
-								</th:block>
-							</th:block>
-						
-							<th:block th:if="${runden.spieler[0].punkte == null}">
-								<td>
-									<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${runden.rundenNummer})}"
-										th:text="${currentRunde.multiplikation + 'x | doppelt'}"></a>
-								</td>
-								<td>
-									<input type="checkbox" th:checked="${currentRunde.herz}" name="herz"/> Herz 
-								</td>
-								<td>
-									<input type="checkbox" th:checked="${currentRunde.muli}" name="muli"/> Muli 
-								</td>
-								<td>actions</td>
-							</th:block>
-							
-							<th:block th:if="${runden.spieler[0].punkte != null}">
-								<td th:text="${runden.multiplikation + 'x'}"></td>
-								<td th:text="${runden.herz}"></td>
-								<td th:text="${runden.muli}"></td>
-								<td>actions</td>
-							</th:block>
-							<td>
-								<button type="submit" class="btn btn-success" id="submitButton">
-									<span class="fa fa-check"></span>
-								</button>
-							</td>
-					</tr>
-				</tbody>
-			</table>
-		
-		</form>
+<div th:include="fragments/header :: header"></div>
+<div class="container">
+	<div class="row">
+		<h1 id="forms" class="page-header" th:text="${'Spiel ' + spiel.id + ' Runde ' + rundenNummer}"></h1>
 	</div>
+	
+	<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${rundenNummer})}"	
+			 method="post" th:object="${spiel}">
+			 
+		
+	
+	
+	</form>
+	
+</div>
 
 </body>
 </html>
