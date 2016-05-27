@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Spiel {
 	
@@ -38,6 +40,7 @@ public class Spiel {
 	private Set<Runde> runden;
 	
 	@Column
+	@DateTimeFormat(pattern="dd.MM.yyyy HH:mm")
 	private Date created;
 	
 	@Column
@@ -45,6 +48,14 @@ public class Spiel {
 	
 	@Column
 	private boolean valid;
+	
+	public Runde getCurrentRound(Integer rundenNummer){
+		return this.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer).findFirst().get();
+	}
+	
+	public Runde getPreviousRound(Integer rundenNummer){
+		return this.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer -1).findFirst().get();
+	}
 
 	public Long getId() {
 		return id;

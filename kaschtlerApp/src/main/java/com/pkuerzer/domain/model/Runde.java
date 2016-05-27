@@ -50,6 +50,22 @@ public class Runde {
 	
 	@Column
 	private Date created;
+	
+	public boolean isLastRound(){
+		if(this.rundenNummer == 15){
+			return true;
+		} else{
+			return false;
+		}
+	}
+	
+	public boolean isOnePlayerWinner(){
+		return this.getSpieler().stream().anyMatch(s -> s.getPunkte() <= 0);
+	}
+	
+	public boolean isOnePlayerOver100(){
+		return this.getSpieler().stream().anyMatch(s -> s.getPunkte() >= 100);
+	}
 
 	public Long getId() {
 		return id;

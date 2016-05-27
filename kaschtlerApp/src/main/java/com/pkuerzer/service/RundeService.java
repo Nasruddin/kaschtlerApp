@@ -3,7 +3,6 @@ package com.pkuerzer.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,28 +19,32 @@ public class RundeService {
 
 	private final RundeRepository rundeRepository;
 	private final SpielRepository spielRepository;
+	private final PunkteService punkteService;
 	
 	@Autowired
-	public RundeService(RundeRepository rundeRepository, SpielRepository spielRepository){
+	public RundeService(RundeRepository rundeRepository, SpielRepository spielRepository, PunkteService punkteService){
 		this.rundeRepository = rundeRepository;
 		this.spielRepository = spielRepository;
+		this.punkteService = punkteService;
 	}
 	
-	public void endRunde(Spiel spiel, Integer rundenNummer){
-		
-		
-		
-		
-		Runde currentRound = getCurrentRound(spiel, rundenNummer);
+	public boolean checkIfGameIsFinished(Spiel spiel, final Integer rundenNummer){
+		if(spiel.getCurrentRound(rundenNummer).isOnePlayerWinner()){
+			spiel.setFinished(true);
+			return true;
+		}
+		if(spiel.getCurrentRound(rundenNummer).isLastRound() || spiel.getCurrentRound(rundenNummer).isOnePlayerOver100()){
+			spiel.setFinished(true);
+			punkteService.calculatePointsIfGameEnds(spiel, rundenNummer);
+			return true;
+		}
+		return false;
+	}
+	
+	public void endRunde(Spiel spiel, final Integer rundenNummer){
+		Runde currentRound = spiel.getCurrentRound(rundenNummer);
 		final Integer multiplication = getMultiplication(currentRound);
-		
-		calculatePoints(currentRound, getPreviousRound(spiel, rundenNummer));
-	}
-	
-	private void calculatePoints(Runde currentRound, Runde previousRound){
-		currentRound.getSpieler().stream().forEach(spieler -> {
-			
-		});
+		punkteService.calculatePointsForEveryPlayer(spiel, rundenNummer, multiplication);
 	}
 	
 	private Integer getMultiplication(Runde currentRound){
@@ -53,41 +56,6 @@ public class RundeService {
 			muliplication = muliplication * 2;
 		}
 		return muliplication;
-	}
-	
-	public Runde endRunde(Spiel spiel, Runde runde, Map<String,String> allRequestParams){
-		Runde previousRunde = rundeRepository.findBySpielIdAndRundenNummer(spiel.getId(), runde.getRundenNummer() -1);
-		List<RundeSpieler> previousRundeSpielerList = previousRunde.getSpieler();
-		
-		for(RundeSpieler previousRundeSpieler : previousRundeSpielerList){
-			Integer punkte = Integer.parseInt(allRequestParams.get(previousRundeSpieler.getSpieler().getId().toString()));
-			for(RundeSpieler rundeSpieler : runde.getSpieler()){
-				if(rundeSpieler.getSpieler().getId() == previousRundeSpieler.getSpieler().getId()){
-					rundeSpieler.setPunkte(calculatePunkte(runde, punkte, previousRundeSpieler.getPunkte()));
-				}
-			}
-		}
-		return runde;
-	}
-	
-	public Runde getCurrentRound(Spiel spiel, Integer rundenNummer){
-		return spiel.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer).findFirst().get();
-	}
-	
-	public Runde getPreviousRound(Spiel spiel, Integer rundenNummer){
-		return spiel.getRunden().stream().filter(runde -> runde.getRundenNummer() == rundenNummer -1).findFirst().get();
-	}
-	
-	private Integer calculatePunkte(Runde runde, Integer punkte, Integer previousPunkte){
-		int multiplikatorHerzMuli = 1;
-		if(runde.isHerz()){
-			multiplikatorHerzMuli = multiplikatorHerzMuli * 2;
-		}
-		if(runde.isMuli()){
-			multiplikatorHerzMuli = multiplikatorHerzMuli * 2;
-		}
-		punkte = runde.getMultiplikation() * punkte * multiplikatorHerzMuli;
-		return previousPunkte - punkte;
 	}
 	
 	public Runde createNewRunde(Spiel spiel, Integer rundenNummer){
@@ -125,17 +93,16 @@ public class RundeService {
 		return model;
 	}
 	
-	public Model normalRunde(Spiel spiel, Integer rundenNummer, Model model){
-		
-		return model;
-	}
-
 	public RundeRepository getRundeRepository() {
 		return rundeRepository;
 	}
 
 	public SpielRepository getSpielRepository() {
 		return spielRepository;
+	}
+
+	public PunkteService getPunkteService() {
+		return punkteService;
 	}
 	
 	

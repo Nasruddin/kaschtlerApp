@@ -15,7 +15,66 @@
 	<form action="#" th:action="@{/spiel/{spielId}/runde/{rundenNummer}(spielId=${spiel.id}, rundenNummer=${rundenNummer})}"	
 			 method="post" th:object="${spiel}">
 			 
-		
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{runden}" />
+		<input type="hidden" th:field="*{created}" />
+		<input type="hidden" th:field="*{valid}" />
+		<input type="hidden" th:field="*{finished}" />
+			 
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Runde</th>
+					<th th:each="spieler : ${spiel.getCurrentRound(rundenNummer).getSpieler()}" th:text="${spieler.spieler.name}"></th>
+					<th>Doppel</th>
+					<th>Herz</th>
+					<th>Muli</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="runde : ${spiel.runden}">
+					<td th:text="${runde.rundenNummer}"></td>
+					<th:block th:each="spieler : ${runde.spieler}" >
+						<th:block th:if="${spieler.punkte == null}">
+						<td>
+							<input type="checkbox" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].gegangen}"/> geht
+							<input type="radio" th:value="${spieler.zerrissen}" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].zerrissen}" /> zerissen
+							<input type="text" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].punkte}"/>
+						</td>
+						</th:block>
+						<td th:if="${spieler.punkte != null}">
+							<th:block th:text="${spieler.punkte}"></th:block>
+							<th:block th:if="${spieler.gegangen == true}">*</th:block>
+						</td>
+					</th:block>
+					
+					<th:block th:if="${runde.spieler[0].punkte == null}">
+						<td>
+							<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${rundenNummer})}"
+							 	th:text="${spiel.getCurrentRound(rundenNummer).multiplikation + 'x | doppelt'}"></a>
+						</td>
+						<td>
+							<input type="checkbox" th:checked="${runde.herz}" th:field="*{runden[__${rundeStat.index}__].herz}"/>
+						</td>
+						<td>
+							<input type="checkbox" th:checked="${runde.muli}" th:field="*{runden[__${rundeStat.index}__].muli}"/>
+						</td>
+						<td>
+							<button type="submit" class="btn btn-success" id="submitButton">
+								<span class="fa fa-check"></span>
+							</button>
+						</td>
+					</th:block>
+					<th:block th:if="${runde.spieler[0].punkte != null}">
+						<td th:text="${runde.multiplikation + 'x'}"></td>
+						<td th:text="${runde.herz}"></td>
+						<td th:text="${runde.muli}"></td>
+						<td></td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
 	
 	
 	</form>

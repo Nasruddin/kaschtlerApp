@@ -77,6 +77,7 @@ public class SpielController {
 	@RequestMapping("/spiel/create")
 	public String spielCreate(Model model){
 		Spiel spiel = new Spiel(new Date());
+		spiel.setValid(true);
 		spiel = spielService.getSpielRepository().save(spiel);
 		model.addAttribute("spiel", spiel);
 		return "redirect:/spiel/" + spiel.getId();

@@ -30,6 +30,9 @@ public class RundeSpieler {
 	
 	@Column
 	private boolean gegangen;
+	
+	@Column
+	private boolean zerrissen;
 
 	public Runde getRunde() {
 		return runde;
@@ -69,6 +72,14 @@ public class RundeSpieler {
 
 	public void setGegangen(boolean gegangen) {
 		this.gegangen = gegangen;
+	}
+
+	public boolean isZerrissen() {
+		return zerrissen;
+	}
+
+	public void setZerrissen(boolean zerrissen) {
+		this.zerrissen = zerrissen;
 	}
 	
 }
