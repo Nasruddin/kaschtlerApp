@@ -39,7 +39,7 @@
 						<th:block th:if="${spieler.punkte == null}">
 						<td>
 							<input type="checkbox" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].gegangen}"/> geht
-							<input type="radio" th:value="${spieler.zerrissen}" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].zerrissen}" /> zerissen
+							<input type="checkbox" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].zerrissen}"/> zerrissen
 							<input type="text" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].punkte}"/>
 						</td>
 						</th:block>
@@ -49,7 +49,7 @@
 						</td>
 					</th:block>
 					
-					<th:block th:if="${runde.spieler[0].punkte == null}">
+					<th:block th:if="${runde.spieler[0].punkte == null}">	
 						<td>
 							<a th:href="@{/spiel/{spielId}/runde/{rundenNummer}/doppelt(spielId=${spiel.id}, rundenNummer=${rundenNummer})}"
 							 	th:text="${spiel.getCurrentRound(rundenNummer).multiplikation + 'x | doppelt'}"></a>

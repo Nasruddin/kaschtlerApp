@@ -30,8 +30,9 @@ public class RundeController {
 		rundeService.endRunde(spiel, rundenNummer);
 		
 		if(rundeService.checkIfGameIsFinished(spiel, rundenNummer)){
+			rundeService.getPunkteService().setPointsToZero(spiel.getCurrentRound(rundenNummer));
 			spielService.getSpielRepository().save(spiel);
-			return "";
+			return "redirect:/spiel/" + spiel.getId() + "/runde/" + rundenNummer;
 		}
 		Runde newRunde = rundeService.createNewRunde(spiel, rundenNummer + 1);
 		spiel.getRunden().add(newRunde);
