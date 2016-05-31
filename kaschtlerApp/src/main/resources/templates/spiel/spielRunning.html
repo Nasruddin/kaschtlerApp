@@ -39,7 +39,7 @@
 						<th:block th:if="${spieler.punkte == null}">
 						<td>
 							<input type="checkbox" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].gegangen}"/> geht
-							<input type="checkbox" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].zerrissen}"/> zerrissen
+							<input type="radio" th:value="${spieler.zerrissen ? '0' : '1'}" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].zerrissen}"/> zerrissen
 							<input type="text" th:field="*{runden[__${rundeStat.index}__].spieler[__${spielerStat.index}__].punkte}"/>
 						</td>
 						</th:block>
